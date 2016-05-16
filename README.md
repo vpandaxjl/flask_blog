@@ -1,5 +1,16 @@
 #介绍
-Python写的博客程序，框架用的Flask，前端用Bootstrap，富文本用的CKeditor。
+Python写的博客程序，框架用的Flask，前端用Bootstrap，富文本用的CKeditor。<br>
+>manage.py主程序<br>
+>config.py Flask配置选项<br>
+>APP：\__init\__.py<br>
+    >>static存放bootstrap jquery<br>
+    >>templates存放jinja渲染模板<br>
+    >>models.py集中数据库操作<br>
+    >>params.py集中jinja渲染变量<br>
+    >>views.py基本路由URL处理<br>
+    >>Judge.py具体路由URL处理<br>
+    >>From_table.py Flask-web表单集合(不包含html表单)<br>
+  
 ##基本功能
 1.数据库用SQLAlchemy实现，原先用SQLite，之后改成了Mysql<br>
 2.后台管理员登录，session保持<br>
