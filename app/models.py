@@ -35,7 +35,7 @@ class Article(db.Model):
 class Category(db.Model):
     __tablename__ = 'categorys'
     id = db.Column(db.Integer,primary_key=True)
-    category = db.Column(db.String(64),  index=True)
+    category = db.Column(db.String(64),  index=True)  ##mysql必须指定尺寸
     number = db.Column(db.Integer, index=True)
     article = db.relationship('Article', backref='categorys')
 
