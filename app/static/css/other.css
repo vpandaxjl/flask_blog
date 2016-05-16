@@ -1,0 +1,68 @@
+.login{
+	margin-top:100px;
+	margin-left:auto;
+	margin-right:auto;
+	width:450px;
+	text-align:center;
+}
+
+.admin-left .container{
+
+	margin-left:1%;
+	width:15%;
+	float:left;
+	height:100%;
+}
+.admin-all{
+	height:310px;
+	width:100%;
+	position:relative;
+}
+
+.admin-right{
+
+	float:left;
+	width:70%
+}
+
+.cate_create_text{
+	width:200px;
+}
+
+
+
+
+.post_title .form-control{
+	width:50%;
+	float:left;
+}
+
+.post_title .select{
+	width:150px;
+	height:34px;
+	padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+
+.index .index-left{
+	width:60%;
+	float:left;
+	margin-left:10%;
+}
+.index .index-right{
+	width:20%;
+	float:left;
+	margin-right:10%;
+}

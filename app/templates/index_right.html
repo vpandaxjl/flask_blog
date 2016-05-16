@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block base %}
+
+<div class="index">
+	<div class="index-left"><h1>h1. Bootstrap heading <small>Secondary text</small></h1>
+<h2>h2. Bootstrap heading <small>Secondary text</small></h2>
+<h3>h3. Bootstrap heading <small>Secondary text</small></h3>
+<h4>h4. Bootstrap heading <small>Secondary text</small></h4>
+<h5>h5. Bootstrap heading <small>Secondary text</small></h5>
+<h6>h6. Bootstrap heading <small>Secondary text</small></h6>
+	</div>
+	
+	<div class="index-right">
+<div class="list-group">
+  {% for cate_data in cate_all %}
+  <li class="list-group-item">
+
+   <a href="/category/{{ cate_data[1] }}/">{{ cate_data[0] }}</a><span class="badge">{{ cate_data[2] }}</span>
+  </li>
+  {% endfor %}
+</div>
+
+<div class="list-group">
+  <a href="#" class="list-group-item disabled">
+    推荐文章
+  </a>
+  <a href="#" class="list-group-item">占位</a>
+  <a href="#" class="list-group-item">占位</a>
+  <a href="#" class="list-group-item">占位</a>
+  <a href="#" class="list-group-item">占位</a>
+</div>
+	
+<div class="list-group">
+  <a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">热门文章占位</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+  <a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">热门文章占位</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+  <a href="#" class="list-group-item">
+    <h4 class="list-group-item-heading">热门文章占位</h4>
+    <p class="list-group-item-text">...</p>
+  </a>
+</div>
+
+
+
+	</div>
+	
+
+</div>
+
+{% block index_right %}{% endblock %}
+
+{% endblock %}

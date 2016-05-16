@@ -1,0 +1,17 @@
+{% extends "admin_left.html" %}
+
+{% block admin_left %}
+
+<div class="cate_create_text">
+<form action="" method='POST'>
+   {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning" role="alert">{{ message }}</div>
+      {% endfor %}
+	{{ form.csrf_token }}
+{{ form.name(class="form-control") }}
+<br>
+ <button type="submit" class="btn btn-default">确认新建</button>
+ </form>
+</div>
+
+{% endblock %}
