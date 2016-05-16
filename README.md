@@ -8,7 +8,7 @@ Python写的博客程序，框架用的Flask，前端用Bootstrap，富文本用
     >>models.py集中数据库操作<br>
     >>params.py集中jinja渲染变量<br>
     >>views.py基本路由URL处理<br>
-    >>Judge.py具体路由URL处理<br>
+    >>Judge.py详细路由URL处理<br>
     >>From_table.py Flask-web表单集合(不包含html表单)<br>
   
 ##基本功能
