@@ -12,7 +12,7 @@ def login():
     if state:
         return redirect('/admin/')
     if form.validate_on_submit():   ##提交内容不为空则就是True
-        user_judge = Judge.user(form.name.data,form.passwd.data)  ##得到表单数据
+        user_judge = Judge.user(form.name.data,form.passwd.data)  ##得到表单数据 
         return user_judge.judge_user()
     else:
         return render_template('login.html',form=form,state=state,params_dict=params_dict)
