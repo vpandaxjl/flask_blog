@@ -6,7 +6,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask(__name__) 
 app.config.from_object('config') 
 
-db = SQLAlchemy(app,use_native_unicode="utf8")
+db = SQLAlchemy(app,use_native_unicode="utf8")  ##解决数据库编码问题
 
 
 from app import views,models
