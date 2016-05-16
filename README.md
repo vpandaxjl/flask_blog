@@ -1,0 +1,9 @@
+#介绍
+Python写的博客程序，框架用的Flask，前端用Bootstrap，富文本用的CKeditor。
+##基本功能
+1.数据库用SQLAlchemy实现，原先用SQLite，之后改成了Mysql<br>
+2.后台管理员登录，session保持<br>
+3.文章分类以及文章的添加删除<br>
+![image](http://chuantu.biz/t4/15/1463364291x1035372866.png)<br>
+![image](http://chuantu.biz/t4/15/1463364471x1035372866.png)<br>
+![image](http://chuantu.biz/t4/15/1463364411x1035372866.png)<br>
