@@ -63,14 +63,37 @@ def category_data():
     cate_date =  db.session.query(Category.category,Category.id,Category.number)
     return cate_date.all()
 
-def article_id(cate_id):
-    cate_all = db.session.query(Article.id,Article.title,Article.time,Article.category,Article.role_id).order_by(Article.id.desc())
-    return cate_all.filter(Article.role_id == cate_id).all()
+    
+def article_id(cate_id,param):
+    #cate_all = db.session.query(Article.id,Article.title,Article.time,Article.category,Article.role_id).order_by(Article.id.desc())
+    cate_all_num = Article.query.filter(Article.role_id == cate_id).order_by(Article.id.desc()).paginate(param,15,False)
+    #return cate_all.filter(Article.role_id == cate_id).all()
+    return cate_all_num
 
-def article_all():
-    cate_all = db.session.query(Article.id,Article.title,Article.time,Article.category,Article.role_id).order_by(Article.id.desc())
-    return cate_all.all()
-   
+def article_all(param):
+    post_all_num = Article.query.order_by(Article.id.desc()).paginate(param,15,False)
+    return post_all_num
+    #for i in oo.items:
+        #print i.title
+    #print xx.next_num
+    #return cate_all.all()
+
+def article_category_all(cate_id,param):
+    post_all_num = Article.query.filter(Article.role_id == cate_id).order_by(Article.id.desc()).paginate(param,15,False)
+    return post_all_num
+
+def index_article_all(param=1):
+    post_all_num = Article.query.order_by(Article.id.desc()).paginate(param,8,False)
+    return post_all_num
+    #for i in oo.items:
+        #print i.title
+    #print xx.next_num
+    #return cate_all.all()
+
+def post_content(id):
+    post_content = Article.query.filter_by(id=id).first()
+    return post_content
+    
 def delete_cate(del_id):
     del_data = Category.query.filter_by(id=del_id).first()
     del_data_in_other = Article.query.filter_by(role_id=del_id).first()
@@ -93,6 +116,20 @@ def create_post(give_title, giv_des, give_content,author,give_time,give_select):
                                role_id=give_role_id
                                )
     db.session.add(new_post_to_data)
+    db.session.commit()
+
+def edit_post(give_title, giv_des, give_content,give_author,give_time,give_select,param):
+    cate_all = db.session.query(Category.id,Category.category)
+    give_role_id = cate_all.filter(Category.category == give_select).first()[0]
+    edit_post_data = Article.query.filter_by(id=param).first()
+    edit_post_data.title=give_title
+    edit_post_data.describe=giv_des
+    edit_post_data.content=give_content
+    edit_post_data.author=give_author
+    edit_post_data.time=give_time
+    edit_post_data.category=give_select
+    edit_post_data.role_id=give_role_id
+    db.session.add(edit_post_data)
     db.session.commit()
 
 def delete_post(del_id):

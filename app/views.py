@@ -5,6 +5,9 @@ from Form_table import login_admin
 import Judge
 from params import params_dict
 import os,datetime,random
+
+
+
 @app.route('/login/', methods=('GET', 'POST'))
 def login():
     form = login_admin()
@@ -22,13 +25,14 @@ def login():
 @app.route('/admin/<url>/', methods=('GET', 'POST'))
 def admin_manage(url=None):
     state = 'username' in session
-    param = request.args.get('id')
+    if request.args.get('id'):param = int(request.args.get('id'))
+    else:param=1
     if url == None:
         if state:
-            return render_template('admin.html',params_dict=params_dict)
+            return render_template('admin.html',params_dict=params_dict,state=state)
         return redirect('/login/')
     elif state:
-        url_judge = Judge.admin_url(url,param=None)
+        url_judge = Judge.admin_url(url,param)
         return url_judge.url_judge()
     return redirect('/login/')
 
@@ -36,7 +40,8 @@ def admin_manage(url=None):
 @app.route('/admin/category/<name>/', methods=('GET', 'POST'))
 def category(name=None):
     state = 'username' in session
-    param = request.args.get('id')
+    if request.args.get('id'):param = int(request.args.get('id'))
+    else:param=1
     if state:
         return Judge.cate_url(name,param)
     else:
@@ -44,7 +49,7 @@ def category(name=None):
     
 
 @app.route('/admin/post/<name>/', methods=('GET', 'POST'))
-def post(name=None):
+def admin_post(name=None):
     state = 'username' in session
     param = request.args.get('id')
     where = request.args.get('where')
@@ -54,10 +59,24 @@ def post(name=None):
     else:
         return redirect('/login/')
 
+@app.route('/post/<int:id>/')
+def post(id):
+    state = 'username' in session
+    return Judge.post_id(id,state)
+
+@app.route('/category/<int:id>/')
+def index_category(id):
+    state = 'username' in session
+    param = request.args.get('page')
+    if param == None:param=1
+    return Judge.category_id(state,id,param)
+
 @app.route('/')
 def index():
-    index_right = Judge.index_right()
-    return index_right.index()
+    state = 'username' in session
+    id = request.args.get('id')
+    index_right = Judge.index_right(state)
+    return index_right.index(id)
     
 @app.route('/logout/')
 def logout():

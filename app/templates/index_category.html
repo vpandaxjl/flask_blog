@@ -1,0 +1,49 @@
+
+{% extends "index_right.html" %}
+
+
+{% block index %}
+
+
+	<div class="index-left">
+	
+<div class="list-group-1">
+{% for i in post_content.items %}
+  <a href="/post/{{ i.id }}" class="list-group-item">{{ i.title }}</a>
+  {% endfor %}
+</div>
+
+
+ <nav>
+  <ul class="pagination">
+     <li>
+      {% if post_content.prev_num == 0 %}
+      <a aria-label="Previous">
+       {% else %}
+      <a href="/category/{{ id }}/?page={{ post_content.prev_num }}" aria-label="Previous">
+       {% endif %}
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+     {% for i in range(post_content.pages) %}
+    <li><a href="/category/{{ id }}/?page={{ i+1 }}">{{ i+1 }}</a></li>
+     {% endfor %}
+     
+     <li>
+     {% if post_content.next_num > post_content.pages %}
+  	<a aria-label="Next">
+      {% else %}
+      <a href="/category/{{ id }}/?page={{ post_content.next_num }}" aria-label="Next">
+      {% endif %}
+      
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+	</div>
+
+
+
+{% endblock %}
+

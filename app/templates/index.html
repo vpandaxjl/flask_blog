@@ -1,7 +1,42 @@
 
 {% extends "index_right.html" %}
 
-{% block index_right %}
+
+{% block index %}
+
+
+	<div class="index-left">
+	
+	{% for article in post_all.items %}
+	<div class="index-left-post">
+	<h2><a href="/post/{{ article.id }}">{{ article.title }}</a></h2>
+<div class="des"><p>{{ article.describe|safe }}</p></div>
+</div>
+{% endfor %}
+
+<nav>
+  <ul class="pager">
+     <li>
+      {% if post_all.prev_num == 0 %}
+      <a>Previous</a>
+       {% else %}
+      <a href="/?id={{ post_all.prev_num }}">Previous</a>
+       {% endif %}
+       </li>
+     <li>
+     {% if post_all.next_num > post_all.pages %}
+  	 <a>Next</a>
+      {% else %}
+   <a href="/?id={{ post_all.next_num }}">Next</a>
+      {% endif %}
+ 
+    </li>
+  </ul>
+</nav>
+
+
+	</div>
+
 
 
 {% endblock %}

@@ -15,20 +15,46 @@
 	 <th>修改时间
 	 </th>
 	</tr>
-	{% for article in cate_all %}
+	{% for article in cate_all.items %}
      <tr>
-    	<td width=25%;><a href="/post/{{ article[0] }}/">{{ article[1] }}</a>
+    	<td width=25%;><a href="/post/{{ article.id }}/">{{ article.title }}</a>
     	</td>
 
-    		<td width=20%;>{{ article[2] }}
+    		<td width=20%;>{{ article.time }}
     	</td>
     	</td>
-    		<td width=10%;>编辑&nbsp;<a href="/admin/post/delete/?id={{ article[0] }}&where=article&cate={{ article[4] }}">删除</a>
+    		<td width=10%;><a href="/admin/post/edit/?id={{ article.id }}">编辑</a>&nbsp;<a href="/admin/post/delete/?id={{ article.id }}&where=article&cate={{ name }}">删除</a>
     	</td>
     </tr>
 {% endfor %}
   </table>
 </div>
+ <nav>
+  <ul class="pagination">
+  <li>
+      {% if cate_all.prev_num == 0 %}
 
+     <a aria-label="Previous">
+       {% else %}
+      <a href="/admin/category/{{ name }}/?id={{ cate_all.prev_num }}" aria-label="Previous">
+      {% endif %}
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+     {% for i in range(cate_all.pages) %}
+    <li><a href="/admin/category/{{ name }}/?id={{ i+1 }}">{{ i+1 }}</a></li>
+     {% endfor %}
+     
+      <li>
+     {% if cate_all.next_num > cate_all.pages %}
+ <a aria-label="Next">
+      {% else %}
+     <a href="/admin/category/{{ name }}/?id={{ cate_all.next_num }}" aria-label="Next">
+   {% endif %}
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 {% endblock %}
