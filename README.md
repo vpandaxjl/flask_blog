@@ -10,6 +10,9 @@ Python写的博客程序，框架用的Flask，前端用Bootstrap，富文本用
     >>views.py基本路由URL处理<br>
     >>Judge.py详细路由URL处理<br>
     >>From_table.py Flask-web表单集合(不包含html表单)<br>
+##更新时间2016年5月24日
+1.分类编辑<br>
+2.推荐文章选项<br>
 ##更新时间2016年5月22日
 1.后台文章编辑功能<br>
 2.前后台文章分页管理显示<br>
