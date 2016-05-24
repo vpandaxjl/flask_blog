@@ -21,7 +21,9 @@
 <option value="{{ cate_data[0] }}">{{ cate_data[0] }}</option>
    {% endfor %}
     </select>
- <span class="glyphicon glyphicon-user" aria-hidden="true">:{{ params_dict.author }}</span>
+
+
+  {{ form.recommend(type="checkbox",id="inlineCheckbox1") }}推荐
 </div>
 <textarea name="post_des" class="form-control" rows="3" placeholder="描述"></textarea>
 <br>
@@ -31,6 +33,8 @@
             </textarea>
             <br>
             <button type="submit" class="btn btn-primary">发送</button>
+            
+             <span class="glyphicon glyphicon-user" aria-hidden="true">:{{ params_dict.author }}</span>
         </form>
         
 

@@ -14,7 +14,7 @@
      <tr>
     	<td width=50%;><a href="{{ cate_data[1] }}/">{{ cate_data[0] }}</a>
     	</td>
-    	<td width=25%;>编辑&nbsp;<a href="/admin/category/delete/?id={{ cate_data[1] }}">删除</a>
+    	<td width=25%;><a href="/admin/category/edit/{{ cate_data[1] }}">编辑</a>&nbsp;<a href="/admin/category/delete/?id={{ cate_data[1] }}">删除</a>
     	</td>
     </tr>
 {% endfor %}

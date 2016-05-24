@@ -14,6 +14,11 @@
 </div>
 {% endfor %}
 
+
+{% if post_all.pages == 1 %}
+<nav>
+</nav>
+{% else %}
 <nav>
   <ul class="pager">
      <li>
@@ -34,6 +39,8 @@
   </ul>
 </nav>
 
+
+{% endif %}
 
 	</div>
 

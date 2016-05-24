@@ -15,7 +15,7 @@ def login():
     if state:
         return redirect('/admin/')
     if form.validate_on_submit():   ##提交内容不为空则就是True
-        user_judge = Judge.user(form.name.data,form.passwd.data)  ##得到表单数据 
+        user_judge = Judge.user(form.name.data,form.passwd.data)  ##得到表单数据
         return user_judge.judge_user()
     else:
         return render_template('login.html',form=form,state=state,params_dict=params_dict)
@@ -38,12 +38,13 @@ def admin_manage(url=None):
 
 @app.route('/admin/category/')
 @app.route('/admin/category/<name>/', methods=('GET', 'POST'))
-def category(name=None):
+@app.route('/admin/category/<name>/<cate_id>/', methods=('GET', 'POST'))
+def category(name=None,cate_id=None):
     state = 'username' in session
     if request.args.get('id'):param = int(request.args.get('id'))
     else:param=1
     if state:
-        return Judge.cate_url(name,param)
+        return Judge.cate_url(name,cate_id,param)
     else:
         return redirect('/login/')
     
@@ -85,7 +86,7 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return 'not found', 404
+    return render_template('404.html',params_dict=params_dict),404
 
 
 def gen_rnd_filename():

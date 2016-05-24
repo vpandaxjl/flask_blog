@@ -36,7 +36,7 @@ class admin_url():
         if self.url in self.url_dict:
             return eval('self.'+(self.url_dict)[self.url])()
         else:
-            return 'not found', 404
+            return redirect(404)
     def password_manage(self):
         form = change_admin_password()
         if form.validate_on_submit():
@@ -53,7 +53,8 @@ class admin_url():
 
 cate_dict={
            'create':'category_create',
-           'delete':'category_delete'
+           'delete':'category_delete',
+           'edit':'category_edit'
            }
 post_dict={
            'create':'post_create',
@@ -61,7 +62,7 @@ post_dict={
            'edit':'post_edit'
            }
 
-def cate_url(name,param):
+def cate_url(name,cate_id,param):
     if name == None:
         category_data = models.category_data()
         return render_template('category_manage.html',state=True,params_dict=params_dict,category_data=category_data)
@@ -69,17 +70,17 @@ def cate_url(name,param):
         cate_all = models.article_id(name,param)
         return render_template('article_manage.html',state=True,params_dict=params_dict,cate_all=cate_all,name=name)
     elif name in cate_dict:
-        return eval(cate_dict[name])(param)
+        return eval(cate_dict[name])(name,cate_id,param)
     else:
-        return 'not found', 404
+        return redirect(404)
     
 def cate_post_url(name,param,where,cate):
     if name in post_dict:
         return eval(post_dict[name])(param,where,cate)
     else:
-        return 'not found', 404
+        return redirect(404)
     
-def category_create(param=None):
+def category_create(name=None,cate_id=None,param=None):
     form = create_cate()
     if form.validate_on_submit():
         models.create_cate(form.name.data)
@@ -87,9 +88,17 @@ def category_create(param=None):
         return render_template('category_create.html',state=True,params_dict=params_dict,form=form)
     return render_template('category_create.html',state=True,params_dict=params_dict,form=form)
 
-def category_delete(param):
+def category_edit(name,cate_id,param):
+    form = create_cate()
+    if form.validate_on_submit():
+        models.edit_cate(cate_id,form.name.data)
+        flash('修改成功')
+        return render_template('category_edit.html',state=True,params_dict=params_dict,form=form)
+    return render_template('category_edit.html',state=True,params_dict=params_dict,form=form)
+
+def category_delete(name,cate_id,param):
     if param == None:
-        return 'not found', 404
+        return redirect(404)
     else:
         del_res = models.delete_cate(param)
         if del_res == True:
@@ -108,7 +117,7 @@ def post_delete(param,where,cate):
             models.category_data_add()
             return redirect('/admin/category/%s'  %cate)
     else:
-        return 'not found', 404
+        return redirect(404)
     
 def post_create(param,where,cate):
     category_data = models.category_data()
@@ -118,11 +127,12 @@ def post_create(param,where,cate):
         giv_des = request.form['post_des']
         give_select = request.form['select']
         give_content = request.form['editor1']
+        give_is_recommend = form.recommend.data
         now = datetime.datetime.now()
         give_time = now.strftime('%Y-%m-%d %H:%M:%S')
         give_author = 'Vpanda'
         if give_content != '' and give_title != '' and giv_des != '':
-            models.create_post(give_title, giv_des, give_content,give_author,give_time,give_select)
+            models.create_post(give_title, giv_des, give_content,give_author,give_time,give_select,give_is_recommend)
             models.category_data_add()
             return redirect('/admin/post/')
         else:
@@ -134,6 +144,7 @@ def post_create(param,where,cate):
 class index_right():
     def __init__(self,state):
         self.cate_all = models.category_data()
+        self.recommend = models.recommend()
         self.state = state
     def index(self,id):
         if id == None:
@@ -142,12 +153,16 @@ class index_right():
             id = int(id) 
         post_all = models.index_article_all(id)
         state = self.state
-        return render_template('index.html',state=state,params_dict=params_dict,cate_all=self.cate_all,post_all=post_all)
+        return render_template('index.html',state=state,params_dict=params_dict,cate_all=self.cate_all,post_all=post_all,recommend=self.recommend)
     
 def post_id(id,state):
     cate_all = models.category_data()
     post_content=models.post_content(id)
-    return render_template('post.html',state=state,params_dict=params_dict,cate_all=cate_all,post_content=post_content)
+    recommend=models.recommend()
+    if post_content == None:
+        return redirect(404)
+    else:
+        return render_template('post.html',state=state,params_dict=params_dict,cate_all=cate_all,post_content=post_content,recommend=recommend)
 
 def post_edit(param,where,cate):
     if param or request.method == 'POST':
@@ -157,11 +172,12 @@ def post_edit(param,where,cate):
             giv_des = request.form['post_des']
             give_select = request.form['select']
             give_content = request.form['editor1']
+            give_is_recommend = form.recommend.data
             now = datetime.datetime.now()
             give_time = now.strftime('%Y-%m-%d %H:%M:%S')
             give_author = 'Vpanda'
             if give_content != '' and give_title != '' and giv_des != '':
-                models.edit_post(give_title, giv_des, give_content,give_author,give_time,give_select,param)
+                models.edit_post(give_title, giv_des, give_content,give_author,give_time,give_select,param,give_is_recommend)
                 flash('修改成功')
                 return redirect('/admin/post/edit/?id=%d' %int(param))
             else:
@@ -171,11 +187,16 @@ def post_edit(param,where,cate):
         post_content=models.post_content(param)
         return render_template('post_edit.html',state=True,params_dict=params_dict,post_content=post_content,form=form,category_data=category_data)
     else:
-        return 'not found', 404
+        return redirect(404)
     
+
 
 def category_id(state,id,param):
     cate_all = models.category_data()
-    post_content=models.article_category_all(id,int(param))
-    return render_template('index_category.html',state=state,params_dict=params_dict,cate_all=cate_all,post_content=post_content,id=id)
+    post_content_1=models.article_category_all(id,int(param))
+    recommend=models.recommend()
+    if post_content_1 == False:
+        return redirect(404)
+    else:
+        return render_template('index_category.html',state=state,params_dict=params_dict,cate_all=cate_all,post_content_1=post_content_1,id=id,recommend=recommend)
     

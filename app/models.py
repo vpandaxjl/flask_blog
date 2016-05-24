@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 from app import db
-from django.conf.urls import url
 from unicodedata import category
 
 class Role(db.Model):
@@ -30,12 +29,12 @@ class Article(db.Model):
     time = db.Column(db.String(80),index=True)
     category = db.Column(db.String(80), index=True)
     role_id = db.Column(db.Integer, db.ForeignKey('categorys.id'))
-    
+    recommend = db.Column(db.String(64),index=True)
 
 class Category(db.Model):
     __tablename__ = 'categorys'
     id = db.Column(db.Integer,primary_key=True)
-    category = db.Column(db.String(64),  index=True)  ##mysql必须指定尺寸
+    category = db.Column(db.String(64),  index=True)
     number = db.Column(db.Integer, index=True)
     article = db.relationship('Article', backref='categorys')
 
@@ -50,6 +49,17 @@ def create_cate(new_cate):
     new_cate_to_data = Category(category=new_cate)
     db.session.add(new_cate_to_data)
     db.session.commit()
+
+def edit_cate(cate_id,new_cate):
+    which_cate_incate = Category.query.filter_by(id = cate_id).first()
+    which_cate_incate.category = new_cate
+    which_cate_inarti = Article.query.filter_by(role_id = cate_id).all()
+    for i in which_cate_inarti:
+        i.category = new_cate
+        db.session.add(i)
+    db.session.add(which_cate_incate)
+    db.session.commit()
+
 
 def category_data_add():
     for i in db.session.query(Category.category).all():
@@ -80,7 +90,11 @@ def article_all(param):
 
 def article_category_all(cate_id,param):
     post_all_num = Article.query.filter(Article.role_id == cate_id).order_by(Article.id.desc()).paginate(param,15,False)
-    return post_all_num
+    is_here = Article.query.filter(Article.role_id == cate_id).all()
+    if is_here == []:
+        return False
+    else:
+        return post_all_num
 
 def index_article_all(param=1):
     post_all_num = Article.query.order_by(Article.id.desc()).paginate(param,8,False)
@@ -93,6 +107,10 @@ def index_article_all(param=1):
 def post_content(id):
     post_content = Article.query.filter_by(id=id).first()
     return post_content
+
+def recommend():
+    recommend = Article.query.filter(Article.recommend == 1).order_by(Article.id.desc()).all()
+    return recommend
     
 def delete_cate(del_id):
     del_data = Category.query.filter_by(id=del_id).first()
@@ -104,7 +122,7 @@ def delete_cate(del_id):
     else:
         return False
         
-def create_post(give_title, giv_des, give_content,author,give_time,give_select):
+def create_post(give_title, giv_des, give_content,author,give_time,give_select,give_is_recommend):
     cate_all = db.session.query(Category.id,Category.category)
     give_role_id = cate_all.filter(Category.category == give_select).first()[0]
     new_post_to_data = Article(title=give_title,
@@ -113,12 +131,13 @@ def create_post(give_title, giv_des, give_content,author,give_time,give_select):
                                author=author,
                                time=give_time,
                                category=give_select,
-                               role_id=give_role_id
+                               role_id=give_role_id,
+                               recommend = give_is_recommend
                                )
     db.session.add(new_post_to_data)
     db.session.commit()
 
-def edit_post(give_title, giv_des, give_content,give_author,give_time,give_select,param):
+def edit_post(give_title, giv_des, give_content,give_author,give_time,give_select,param,give_is_recommend):
     cate_all = db.session.query(Category.id,Category.category)
     give_role_id = cate_all.filter(Category.category == give_select).first()[0]
     edit_post_data = Article.query.filter_by(id=param).first()
@@ -129,6 +148,7 @@ def edit_post(give_title, giv_des, give_content,give_author,give_time,give_selec
     edit_post_data.time=give_time
     edit_post_data.category=give_select
     edit_post_data.role_id=give_role_id
+    edit_post_data.recommend=give_is_recommend
     db.session.add(edit_post_data)
     db.session.commit()
 

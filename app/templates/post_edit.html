@@ -21,7 +21,7 @@
 <option value="{{ cate_data[0] }}">{{ cate_data[0] }}</option>
    {% endfor %}
     </select>
- <span class="glyphicon glyphicon-user" aria-hidden="true">:{{ post_content.author }}</span>
+{{ form.recommend(type="checkbox",id="inlineCheckbox1") }}推荐
 </div>
 <textarea name="post_des" class="form-control" rows="3">{{ post_content.describe }}</textarea>
 <br>
@@ -30,7 +30,8 @@
                {{ post_content.content }}
             </textarea>
             <br>
-            <button type="submit" class="btn btn-primary">发送</button>
+            <button type="submit" class="btn btn-primary">发送</button> 
+            <span class="glyphicon glyphicon-user" aria-hidden="true">:{{ post_content.author }}</span>
         </form>
         
 

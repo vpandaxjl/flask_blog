@@ -100,3 +100,10 @@ margin-left:3px;
 .index-left .list-group-1{
 	margin-right:10px;
 }
+
+
+.base-404{
+	background-image:{{ url_for('static', filename='images/404.jpg') }};
+	height:100%;
+	width:100%;
+}
